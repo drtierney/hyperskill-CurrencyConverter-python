@@ -1,20 +1,16 @@
-
-currencies = {
-    'RUB': {'name': 'Russian Ruble', 'rate': 2.98},
-    'ARS': {'name': 'Argentine Peso', 'rate': 0.82},
-    'HNL': {'name': 'Honduran Lempira', 'rate': 0.17},
-    'AUD': {'name': 'Australian Dollar', 'rate': 1.9622},
-    'MAD': {'name': 'Moroccan Dirham', 'rate': 0.208},
-}
+import requests
 
 
-def conicoin_rates(**currency_dict):
-    conicoins = float(input())
-
-    for code in currencies.keys():
-        amount = conicoins * currencies[code]['rate']
-        print(f"I will get {round(amount, 2)} {code} from the sale of {conicoins} conicoins.")
+def get_currency_rates(currency_code):
+    url = f"http://www.floatrates.com/daily/{currency_code}.json"
+    r = requests.get(url)
+    if r:
+        print(r.json()['usd'])
+        print(r.json()['eur'])
+    else:
+        print("Failed to get currency rates")
 
 
 if __name__ == '__main__':
-    conicoin_rates(**currencies)
+    my_code = input().lower()
+    get_currency_rates(my_code)
